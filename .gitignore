@@ -4,3 +4,4 @@ tmp/
 doc/patient-api
 .gem
 Gemfile.lock
+.idea
