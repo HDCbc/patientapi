@@ -3,5 +3,4 @@ tmp/
 .DS_Store
 doc/patientapi
 .gem
-Gemfile.lock
 .idea
