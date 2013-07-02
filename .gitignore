@@ -1,6 +1,7 @@
 .bundle
 tmp/
 .DS_Store
-doc/patient-api
+doc/patientapi
 .gem
 Gemfile.lock
+.idea

@@ -3,6 +3,10 @@ hQuery Patient API
 
 The patient API is a CoffeeScript API for accessing patient information. It defines the model available to queries executing in an [hQuery Gateway](http://github.com/hquery/query-gateway). 
 
+Dependencies
+------------
+minitest < 5.0.0
+
 Install Instructions
 --------------------
 

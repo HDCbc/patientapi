@@ -31,12 +31,12 @@ namespace :doc do
   
   desc "Generate docs for patient API"
   task :js => :generate_js do
-    system 'java -jar ./doc/jsdoc-toolkit/jsrun.jar ./doc/jsdoc-toolkit/app/run.js -t=doc/jsdoc-toolkit/templates/jsdoc -a tmp/patient.js -d=doc/patient-api'
+    system 'java -jar ./doc/jsdoc-toolkit/jsrun.jar ./doc/jsdoc-toolkit/app/run.js -t=doc/jsdoc-toolkit/templates/jsdoc -a tmp/patient.js -d=doc/patientapi'
   end
   
   task :copydir do
     Dir.mkdir('patientapi') unless Dir.exists? ('patientapi')
-    cp_r "doc/patient-api", "../query-composer/public/patientapi"
+    cp_r 'doc/patientapi', "../query-composer/public"
   end
     
 end
