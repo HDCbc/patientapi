@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'sprockets'
 gem 'coffee-script'
@@ -12,11 +12,10 @@ group :test do
 
   platforms :ruby do
     gem 'libv8', '~> 3.11.8'
-    #gem "libv8" 
-    gem "therubyracer", :require => 'v8'
+    gem 'therubyracer', :require => 'v8'
   end
   
   platforms :jruby do
-    gem "therubyrhino"
+    gem 'therubyrhino'
   end
 end

@@ -5,7 +5,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.2)
+    coffee-script-source (1.6.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
     hike (1.2.3)
