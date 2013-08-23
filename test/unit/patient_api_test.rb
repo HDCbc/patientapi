@@ -9,6 +9,7 @@ class PatientApiTest  < Test::Unit::TestCase
   def setup
     patient_api = QueryExecutor.patient_api_javascript.to_s
     fixture_json = File.read('test/fixtures/patient/barry_berry.json')
+    #fixture_json = File.read('/Users/rrusk/RubymineProjects/patientapi/test/fixtures/patient/barry_berry.json')
     initialize_patient = 'var patient = new hQuery.Patient(barry);'
     date = Time.new(2010,1,1)
     initialize_date = "var sampleDate = new Date(#{date.to_i*1000});"
@@ -81,6 +82,7 @@ class PatientApiTest  < Test::Unit::TestCase
     assert_equal 'Colonscopy', @context.eval('patient.procedures()[0].freeTextType()')
     assert @context.eval('patient.procedures()[0].includesCodeFrom({"CPT": ["44388"]})')
     assert_equal 1, @context.eval('patient.procedures().match({"CPT": ["44388"]}).length')
+    assert_equal 1, @context.eval('patient.procedures().regex_match({"CPT": ["4438.*"]}).length')
     assert_equal 0, @context.eval('patient.procedures().match({"CPT": ["44388"]}, sampleDate).length')
     assert_equal 'SNOMED-CT', @context.eval('patient.procedures()[0].site().codeSystemName()')
     assert_equal '71854001', @context.eval('patient.procedures()[0].site().code()')
