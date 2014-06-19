@@ -1,0 +1,4 @@
+The mongod records collection export of the JOHN CLEESE record needs to
+be updated when E2E is changed.  The new export needs to be substituted
+for test/fixtures/patient/john_cleese.json
+

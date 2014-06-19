@@ -24,15 +24,16 @@ class E2EPatientApiTest  < Test::Unit::TestCase
   def test_utils
     @context.eval('var encounter = e2e_patient.encounters()[0]')
     #assert_equal 2005, @context.eval('encounter.startDate().getFullYear()')
-    assert_equal 2013, @context.eval('encounter.date().getFullYear()')
+    assert_equal 2013, @context.eval('encounter.startDate().getFullYear()')
     @context.eval('encounter.setTimestamp(new Date(2010,1,1))')
     assert_equal 2010, @context.eval('encounter.startDate().getFullYear()')
   end    
 
   def test_demographics
-    assert_equal 'JOHN', @context.eval('e2e_patient.given()')
-    assert_equal 'CLEESE', @context.eval('e2e_patient.last()')
-    assert_equal 'JOHN CLEESE', @context.eval('e2e_patient.name()')
+    #E2E patients have been anonymomized so we expect empty strings here
+    assert_equal '', @context.eval('e2e_patient.given()')
+    assert_equal '', @context.eval('e2e_patient.last()')
+    assert_equal ' ', @context.eval('e2e_patient.name()')
     assert_equal 1940, @context.eval('e2e_patient.birthtime().getFullYear()')
     assert_equal 'M', @context.eval('e2e_patient.gender()')
     assert_equal 71, @context.eval('e2e_patient.age(new Date(2012,1,10))').to_i
@@ -57,31 +58,30 @@ class E2EPatientApiTest  < Test::Unit::TestCase
   end
 
   def test_encounters
-    assert_equal 2, @context.eval('e2e_patient.encounters().length')
+    assert_equal 6, @context.eval('e2e_patient.encounters().length')
     assert_equal 'REASON', @context.eval('e2e_patient.encounters()[0].type()[0].code()')
     #TODO Determine why "ObservationType-CA-Pending" is not returned
     assert_equal 'code',    @context.eval('e2e_patient.encounters()[0].type()[0].codeSystemName()')
-    #TODO Determine whether this is the expected behaviour for id
-    assert_equal '53860efdb4397e102100005e', @context.eval('e2e_patient.encounters()[0].id')
-    assert_equal 'Multivitamin', @context.eval('e2e_patient.encounters()[0].freeTextType()')
+    #TODO Come up with better way to retrieve patient hash
+    assert_equal 'oqG3YBB7rJvxeUAmPu2Mv2Q/cUji905I9IoJ4w==', @context.eval('e2e_patient["json"]["_id"]')
+    assert_equal true, @context.eval('e2e_patient.encounters()[0].freeTextType().indexOf("130/85 sitting position") > -1')
     assert_equal nil, @context.eval('e2e_patient.encounters()[0].dischargeDisposition()')
     assert_equal nil, @context.eval('e2e_patient.encounters()[0].admitType()') #'.code()')
     assert_equal 'doctor', @context.eval('e2e_patient.encounters()[0].performer()["json"]["given_name"]')
     assert_equal 'oscardoc', @context.eval('e2e_patient.encounters()[0].performer()["json"]["family_name"]')
-    assert_equal '999998', @context.eval('e2e_patient.encounters()[0].performer()["json"]["npi"]')
-    #TODO resolve why time has been set to midnight plus 7 hours (seems to be UTC midnight rather than time actually specified)
-    assert_equal Time.gm(2013,9,26,7,0,0).to_i, @context.eval('e2e_patient.encounters()[0].performer()["json"]["start"]')
-    assert_equal nil, @context.eval('e2e_patient.encounters()[0].performer().organization()') #'.organizationName()')
-    assert_equal nil, @context.eval('e2e_patient.encounters()[0].startDate()')#'.getFullYear()')
-    assert_equal nil, @context.eval('e2e_patient.encounters()[0].endDate()')#'.getFullYear()')
-    assert_equal 2013, @context.eval('e2e_patient.encounters()[0].date().getFullYear()')
-    assert_equal 8, @context.eval('e2e_patient.encounters()[0].date().getMonth()')
-    assert_equal 26, @context.eval('e2e_patient.encounters()[0].date().getDate()')
-    assert_equal 'Shark cartiledge', @context.eval('e2e_patient.encounters()[1].reasonForVisit().freeTextType()')
+    assert_equal 'cpsid', @context.eval('e2e_patient.encounters()[0].performer()["json"]["npi"]')
+    assert_equal Time.gm(2013,9,25,15,50,0).to_i, @context.eval('e2e_patient.encounters()[0].performer()["json"]["start"]')
+    assert_equal nil, @context.eval('e2e_patient.encounters()[0].performer().organization()')
+    assert_equal Time.gm(2013,9,25,15,50,0), @context.eval('e2e_patient.encounters()[0].startDate()')
+    assert_equal nil, @context.eval('e2e_patient.encounters()[0].endDate()')
+    assert_equal 2013, @context.eval('e2e_patient.encounters()[0].startDate().getFullYear()')
+    assert_equal 8, @context.eval('e2e_patient.encounters()[0].startDate().getMonth()')
+    assert_equal 25, @context.eval('e2e_patient.encounters()[0].startDate().getDate()')
+    assert_equal 'Situational Crisis', @context.eval('e2e_patient.encounters()[1].reasonForVisit().freeTextType()')
     assert_equal 'ObservationType-CA-Pending', @context.eval('e2e_patient.encounters()[0].reasonForVisit().type()[0].codeSystemName()')
-    assert_equal nil, @context.eval('e2e_patient.encounters()[0].facility().codeSystemName()')
-    assert_equal nil, @context.eval('e2e_patient.encounters()[0].facility().code()')
-    assert_equal nil, @context.eval('e2e_patient.encounters()[0].facility().name()')
+    assert_equal nil, @context.eval('e2e_patient.encounters()[0].facility()') #'.codeSystemName()')
+    #assert_equal nil, @context.eval('e2e_patient.encounters()[0].facility().code()')
+    #assert_equal nil, @context.eval('e2e_patient.encounters()[0].facility().name()')
     #TODO Change importer so lengthOfStay isn't always 0
     assert_equal 0, @context.eval('e2e_patient.encounters()[0].lengthOfStay()')
     assert_equal nil, @context.eval('e2e_patient.encounters()[0].transferTo()')
@@ -126,8 +126,8 @@ class E2EPatientApiTest  < Test::Unit::TestCase
   def test_results
     assert_equal 28, @context.eval('e2e_patient.results().length')
     assert_equal '6690-2', @context.eval('e2e_patient.results()[0].type()[0].code()')
-    assert_equal 'LOINC', @context.eval('e2e_patient.results()[0].type()[0].codeSystemName()')
-    assert_equal 'LOINC', @context.eval('e2e_patient.results()[0].resultType()[0].codeSystemName()')
+    assert_equal 'pCLOCD', @context.eval('e2e_patient.results()[0].type()[0].codeSystemName()')
+    assert_equal 'pCLOCD', @context.eval('e2e_patient.results()[0].resultType()[0].codeSystemName()')
     #TODO Capture status in HDS E2E importer
     assert_equal nil, @context.eval('e2e_patient.results()[0].status()')
     #TODO Capture comment in HDS E2E importer
@@ -198,13 +198,13 @@ class E2EPatientApiTest  < Test::Unit::TestCase
   def test_allergies
     assert_equal 1, @context.eval('e2e_patient.allergies().length')
     assert_equal nil,@context.eval('e2e_patient.allergies()[0].comment()')
-    assert_equal 1, @context.eval('e2e_patient.allergies().match({"Unknown": ["NA"]}).length')
+    assert_equal 1, @context.eval('e2e_patient.allergies().match({"Unknown": ["NI"]}).length')
     assert_equal 'PENICILLINS, COMBINATIONS WITH OTHER ANTIBACTERIAL', @context.eval('e2e_patient.allergies()[0].freeTextType()')
     assert_equal nil, @context.eval('e2e_patient.allergies()[0].reaction().code()')
     assert_equal nil, @context.eval('e2e_patient.allergies()[0].severity()')
-    assert_equal Time.gm(2013,3,5).to_i*1000.0, @context.eval('e2e_patient.allergies()[0].date().getTime()')
+    assert_equal Time.gm(2013,3,5).to_i*1000.0, @context.eval('e2e_patient.allergies()[0].startDate().getTime()')
     assert_equal Time.gm(2013,3,5).to_i*1000.0, @context.eval('e2e_patient.allergies()[0].timeStamp().getTime()')
-    assert_equal nil, @context.eval('e2e_patient.allergies()[0].startDate()')
+    assert_equal Time.gm(2013,3,5), @context.eval('e2e_patient.allergies()[0].startDate()')
     assert_equal nil, @context.eval('e2e_patient.allergies()[0].endDate()')
     assert_equal false, @context.eval('e2e_patient.allergies()[0].isTimeRange()')
   end
