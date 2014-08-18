@@ -74,7 +74,7 @@ class hQuery.Patient extends hQuery.Person
   ###
   age: (date = new Date()) ->
     oneDay = 24*60*60*1000;
-    oneYear = 365*oneDay;
+    oneYear = 365.25*oneDay;
     return (date.getTime()-this.birthtime().getTime())/oneYear;
     
   ###*
