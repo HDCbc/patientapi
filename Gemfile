@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'sprockets'
+gem 'sprockets', '2.2.2'
 gem 'coffee-script'
 gem 'uglifier'
 gem 'rake'
 gem 'tilt'
 
 group :test do
-  gem 'minitest'
+  gem 'minitest', '~> 4.0'
   gem 'turn', :require => false
 
   platforms :ruby do
