@@ -245,14 +245,14 @@ class hQuery.Medication  extends hQuery.CodedEntry
   ###*
   @returns {hQuery.TypeOfMedication} Indicates whether this is an over the counter or prescription medication
   ###
-  typeOfMedication: -> new hQuery.TypeOfMedication @json['typeOfMedication']?['code'], @json['typeOfMedication']?['code_system']
+  typeOfMedication: -> new hQuery.TypeOfMedication @json['typeOfMedication']?['code'], @json['typeOfMedication']?['codeSystem']
 
   ###*
   Values conform to value set 2.16.840.1.113883.1.11.20.7 - Medication Status
   Values may be: On Hold, No Longer Active, Active, Prior History
   @returns {hQuery.StatusOfMedication}   Used to indicate the status of the medication.
   ###
-  statusOfMedication: -> new hQuery.StatusOfMedication @json['statusOfMedication']?['code'], @json['statusOfMedication']?['code_system']
+  statusOfMedication: -> new hQuery.StatusOfMedication @json['statusOfMedication']?['code'], @json['statusOfMedication']?['codeSystem']
 
   ###*
   @returns {String} free text instructions to the patient
