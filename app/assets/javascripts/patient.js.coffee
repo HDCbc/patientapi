@@ -73,10 +73,11 @@ class hQuery.Patient extends hQuery.Person
   @returns {number} the patient age in years
   ###
   age: (date = new Date()) ->
-    oneDay = 24*60*60*1000;
-    oneYear = 365.25*oneDay;
-    return (date.getTime()-this.birthtime().getTime())/oneYear;
-    
+    if this.birthtime()?
+      oneDay = 24*60*60*1000;
+      oneYear = 365.25*oneDay;
+      return (date.getTime()-this.birthtime().getTime())/oneYear
+
   ###*
   @returns {CodedValue} the domestic partnership status of the patient
   The following HL7 codeset is used:
