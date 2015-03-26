@@ -30,10 +30,10 @@ class E2EPatientApiTest  < Test::Unit::TestCase
   end    
 
   def test_demographics
-    #E2E patients have been anonymomized so we expect empty strings here
-    assert_equal '', @context.eval('e2e_patient.given()')
-    assert_equal '', @context.eval('e2e_patient.last()')
-    assert_equal ' ', @context.eval('e2e_patient.name()')
+    #E2E patients have been anonymomized so we expect sha224 hash strings here
+    assert_equal 's/Q1SdAMY/S6mlao6erGW8sO1N0Z5XYXsSd2Ug==', @context.eval('e2e_patient.given()')
+    assert_equal '7ETUHfZcSQduD+JS3qauh9vPmWUp1xbe56I3Bw==', @context.eval('e2e_patient.last()')
+    assert_equal 's/Q1SdAMY/S6mlao6erGW8sO1N0Z5XYXsSd2Ug== 7ETUHfZcSQduD+JS3qauh9vPmWUp1xbe56I3Bw==', @context.eval('e2e_patient.name()')
     assert_equal 1940, @context.eval('e2e_patient.birthtime().getFullYear()')
     assert_equal 'M', @context.eval('e2e_patient.gender()')
     assert_equal 71, @context.eval('e2e_patient.age(new Date(2012,1,10))').to_i
@@ -63,12 +63,12 @@ class E2EPatientApiTest  < Test::Unit::TestCase
     #TODO Determine why "ObservationType-CA-Pending" is not returned
     assert_equal 'code',    @context.eval('e2e_patient.encounters()[0].type()[0].codeSystemName()')
     #TODO Come up with better way to retrieve patient hash
-    assert_equal 'oqG3YBB7rJvxeUAmPu2Mv2Q/cUji905I9IoJ4w==', @context.eval('e2e_patient["json"]["_id"]')
+    assert_equal '1', @context.eval('e2e_patient["json"]["_id"]')
     assert_equal true, @context.eval('e2e_patient.encounters()[0].freeTextType().indexOf("130/85 sitting position") > -1')
     assert_equal nil, @context.eval('e2e_patient.encounters()[0].dischargeDisposition()')
     assert_equal nil, @context.eval('e2e_patient.encounters()[0].admitType()') #'.code()')
     assert_equal '', @context.eval('e2e_patient.encounters()[0].performer()["json"]["given_name"]')
-    assert_equal 'fiBE1z+k3/bo0InO41DyBEJuDs+VEhX2e4SNJg==', @context.eval('e2e_patient.encounters()[0].performer()["json"]["family_name"]')
+    assert_equal 'qbGJGxVjhsCx/JR42Bd7tX4nbBYNgR/TehN7gQ==', @context.eval('e2e_patient.encounters()[0].performer()["json"]["family_name"]')
     assert_equal '', @context.eval('e2e_patient.encounters()[0].performer()["json"]["npi"]')
     #assert_equal 'doctor', @context.eval('e2e_patient.encounters()[0].performer()["json"]["given_name"]')
     #assert_equal 'oscardoc', @context.eval('e2e_patient.encounters()[0].performer()["json"]["family_name"]')
