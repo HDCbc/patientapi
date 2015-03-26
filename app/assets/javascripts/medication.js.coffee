@@ -159,6 +159,18 @@ class hQuery.Medication  extends hQuery.CodedEntry
   ####
   freeTextSig: -> @json['freeTextSig']
 
+
+  ###*
+  @returns {Boolean}
+  ####
+  isPRN: -> @json['freeTextSig'].indexOf("E2E_PRN_FLAG")!=-1
+
+
+  ###*
+  @returns {Boolean}
+  ####
+  isLongTerm: -> @json['freeTextSig'].indexOf("E2E_LONG_TERM_FLAG")!=-1
+
   ###*
   The actual or intended start of a medication. Slight deviation from greenCDA for C32 since
   it combines this with medication stop
