@@ -3,6 +3,8 @@ hQuery Patient API
 
 The patient API is a CoffeeScript API for accessing patient information. It defines the model available to queries executing in an [hQuery Gateway](http://github.com/hquery/query-gateway). 
 
+This codebase is used to generate a patient.js file that used within the hQuery Gateway to support execution of queries. 
+
 Dependencies
 ------------
 minitest < 5.0.0
@@ -14,6 +16,13 @@ There is no need to install the patientapi directly, it will be pulled into the 
 
 See the [hQuery Composer](http://github.com/hquery/query-composer) for installation instructions for both the hQuery Composer and Gateway
   
+Usage Instructions
+--------------------
+To generate the patient.js locally run the following in the project root: 
+
+`rake generate_js` 
+
+This generates a new directory `tmp/` and puts `patient.js` in it.  
 
 License
 -------
