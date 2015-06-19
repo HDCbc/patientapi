@@ -20,9 +20,11 @@ Usage Instructions
 --------------------
 To generate the patient.js locally run the following in the project root: 
 
-`rake generate_js` 
+`rake doc:generate_js`  
 
 This generates a new directory `tmp/` and puts `patient.js` in it.  
+
+NOTE: the `doc:` is required to indicate the namespace, without this the command will fail.
 
 License
 -------

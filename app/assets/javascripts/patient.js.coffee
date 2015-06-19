@@ -63,11 +63,15 @@ class hQuery.Patient extends hQuery.Person
   gender: -> @json['gender']
 
   ###*
-  @returns {Date} containing the patients birthdate
+  @returns {Date} containing the patients birthdate or null if the date was invalid
   ###
   birthtime: ->
-    hQuery.dateFromUtcSeconds @json['birthdate'] if @json['birthdate']
-    
+    if @json['birthdate']
+      d = hQuery.dateFromUtcSeconds @json['birthdate'] 
+      if isNaN(d.getTime()) then return null else return d
+    else
+      return null 
+
   ###*
   @param (Date) date the date at which the patient age is calculated, defaults to now.
   @returns {number} the patient age in years
