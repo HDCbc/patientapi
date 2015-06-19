@@ -11,7 +11,7 @@ Converts a a number in UTC Seconds since the epoch to a date.
 @exports dateFromUtcSeconds as hQuery.dateFromUtcSeconds
 ###
 hQuery.dateFromUtcSeconds = (utcSeconds) ->
-  new Date utcSeconds * 1000
+  if utcSeconds == null then return null else new Date utcSeconds * 1000
 
 ###*
 @class Scalar - a representation of a unit and value
