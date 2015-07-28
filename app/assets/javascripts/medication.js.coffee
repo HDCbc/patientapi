@@ -84,6 +84,7 @@ class hQuery.OrderInformation
   quantityOrdered: -> new hQuery.Scalar @json['quantityOrdered'] if @json['quantityOrdered']
   orderExpirationDateTime: -> hQuery.dateFromUtcSeconds @json['orderExpirationDateTime']
   orderDateTime: -> hQuery.dateFromUtcSeconds @json['orderDateTime']
+  isPRN: -> @json['prn']
 
 
 ###*
@@ -169,7 +170,12 @@ class hQuery.Medication  extends hQuery.CodedEntry
   ###*
   @returns {Boolean}
   ####
-  isLongTerm: -> @json['freeTextSig'].indexOf("E2E_LONG_TERM_FLAG")!=-1
+  isLongTerm_deprecated: -> @json['freeTextSig'].indexOf("E2E_LONG_TERM_FLAG")!=-1
+
+  ###*
+  @returns {Boolean}
+  ####
+  isLongTerm: -> @json['longTerm']
 
   ###*
   The actual or intended start of a medication. Slight deviation from greenCDA for C32 since

@@ -160,6 +160,8 @@ class E2EPatientApiTest  < Test::Unit::TestCase
     assert_equal ' E2E_PRN_FLAG E2E_LONG_TERM_FLAG', @context.eval('e2e_patient.medications()[0].freeTextSig()')
     assert_equal true, @context.eval('e2e_patient.medications()[0].isPRN()')
     assert_equal true, @context.eval('e2e_patient.medications()[0].isLongTerm()')
+    assert_equal 1, @context.eval('e2e_patient.medications()[0].orderInformation().length')
+    assert_equal true, @context.eval('e2e_patient.medications()[0].orderInformation()[0].isPRN()')
     # HDS E2E importer doesn't support fulfillmentHistory
     #assert_equal 30, @context.eval('e2e_patient.medications()[0].fulfillmentHistory()[0].quantityDispensed().value()')
     # FIXME typeOfMedication and statusOfMedication don't really work
